@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record UserRegisterRequest(
@@ -13,6 +14,7 @@ public record UserRegisterRequest(
         String nome,
 
         @NotBlank(message = "O CPF é obrigatório")
+        @CPF
         String cpf,
 
         @NotBlank(message = "O CEP é obrigatório")
