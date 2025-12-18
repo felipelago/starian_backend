@@ -51,8 +51,8 @@ cd starian_backend</pre>
   <li>Password: <code>password</code></li>
 </ul>
 
-<h2>📋 Endpoints Principais</h2>
-
+<h2>📋 Testando os Endpoints</h2>
+<p>Para testar a aplicação eu recomendo fortemente que faça pelo próprio Swagger (link acima), pois tem a descrição dos endpoints e até alguns exemplos de body que podem facilitar o teste.</p>
 
 <h2>📝 Próximos Passos</h2>
 
