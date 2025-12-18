@@ -1,5 +1,6 @@
 package com.starian.backend.application.service;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
@@ -7,6 +8,7 @@ import com.starian.backend.application.dto.response.UserRegisterResponse;
 import com.starian.backend.domain.entity.UserEntity;
 import com.starian.backend.domain.exception.BusinessException;
 import com.starian.backend.infrastructure.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,12 @@ public class UserService {
         this.objectMapper = objectMapper;
     }
 
+    @Transactional
     public UserRegisterResponse criarUsuario(UserRegisterRequest request) {
+
+        if (userRepository.findByCpf(request.cpf()).isPresent()) {
+            throw new BusinessException("CPF Já cadastrado: " + request.cpf());
+        }
 
         UserEntity entity = objectMapper.convertValue(request, UserEntity.class);
         UserEntity salvo = userRepository.save(entity);
@@ -39,5 +46,27 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Usuário não encontrado com id: " + id));
         return objectMapper.convertValue(userEntity, UserListResponse.class);
+    }
+
+    @Transactional
+    public void deletarUsuario(Long id) {
+        if (!userRepository.existsById(id))
+            throw new BusinessException("Usuário não encontrado: " + id);
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UserListResponse atualizarUsuario(Long id, UserRegisterRequest request) throws JsonMappingException {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado com id: " + id));
+
+        if (!userEntity.getCpf().equals(request.cpf()) && userRepository.findByCpf(request.cpf()).isPresent()) {
+            throw new BusinessException("CPF Já cadastrado: " + request.cpf());
+        }
+
+        objectMapper.updateValue(userEntity, request);
+
+        UserEntity atualizado = userRepository.save(userEntity);
+        return objectMapper.convertValue(atualizado, UserListResponse.class);
     }
 }

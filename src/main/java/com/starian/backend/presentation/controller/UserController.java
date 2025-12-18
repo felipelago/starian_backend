@@ -1,5 +1,6 @@
 package com.starian.backend.presentation.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
 import com.starian.backend.application.dto.response.UserRegisterResponse;
@@ -38,5 +39,16 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserListResponse> listarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(userService.listarUsuarioPorId(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+        userService.deletarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserListResponse> atualizarUsuario(@PathVariable Long id, @RequestBody UserRegisterRequest request) throws JsonMappingException {
+        return ResponseEntity.ok(userService.atualizarUsuario(id, request));
     }
 }
