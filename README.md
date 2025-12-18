@@ -28,7 +28,7 @@
 <ol>
   <li><strong>Clone o repositório</strong>
     <pre>git clone https://github.com/felipelago/starian_backend.git
-cd CepBackend</pre>
+cd starian_backend</pre>
   </li>
   
   <li><strong>Execute com Maven</strong>
