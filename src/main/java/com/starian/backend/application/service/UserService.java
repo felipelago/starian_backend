@@ -12,9 +12,9 @@ import com.starian.backend.domain.exception.BusinessException;
 import com.starian.backend.infrastructure.client.viacep.ViaCepAdapter;
 import com.starian.backend.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -41,10 +41,10 @@ public class UserService {
         return objectMapper.convertValue(salvo, UserRegisterResponse.class);
     }
 
-    public List<UserListResponse> listarUsuarios() {
-        List<UserEntity> listUserEntity = userRepository.findAll();
+    public Page<UserListResponse> listarUsuarios(Pageable pageable) {
+        Page<UserEntity> page = userRepository.findAll(pageable);
 
-        return listUserEntity.stream().map(item -> objectMapper.convertValue(item, UserListResponse.class)).toList();
+        return page.map(entity -> objectMapper.convertValue(entity, UserListResponse.class));
     }
 
     public UserListResponse listarUsuarioPorId(Long id) {

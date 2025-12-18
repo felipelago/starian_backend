@@ -11,12 +11,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -35,20 +38,28 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema")
-    public ResponseEntity<UserRegisterResponse> criarUsuario(@RequestBody UserRegisterRequest request) {
+    public ResponseEntity<UserRegisterResponse> criarUsuario(@Valid @RequestBody UserRegisterRequest request) {
         return ResponseEntity.ok(userService.criarUsuario(request));
     }
 
     @PostMapping(value = "/cadastroCepAutomatico", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Criar novo usuário buscando cep pela ViaCep", description = "Cria um novo usuário no sistema utilizando sistema do ViaCep para buscar o endereço")
-    public ResponseEntity<UserRegisterResponse> criarUsuarioCepAuto(@RequestBody UserRegisterCepAutoRequest request) {
+    public ResponseEntity<UserRegisterResponse> criarUsuarioCepAuto(@Valid @RequestBody UserRegisterCepAutoRequest request) {
         return ResponseEntity.ok(userService.criarUsuarioCepAuto(request));
     }
 
     @GetMapping
     @Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados")
-    public ResponseEntity<List<UserListResponse>> listarTodos() {
-        return ResponseEntity.ok(userService.listarUsuarios());
+    public ResponseEntity<Page<UserListResponse>> listarTodos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,asc") String sort
+    ) {
+        String[] sortParams = sort.split(",");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]));
+
+        Page<UserListResponse> usuarios = userService.listarUsuarios(pageable);
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
