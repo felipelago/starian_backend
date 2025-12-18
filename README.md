@@ -57,8 +57,6 @@ cd starian_backend</pre>
 <h2>📝 Próximos Passos</h2>
 
 <ul>
-  <li>[ ] Implementar paginação nas listagens</li>
-  <li>[ ] Melhorar documentação da API</li>
   <li>[ ] Explorar integração com banco PostgreSQL para ambientes de produção</li>
   <li>[ ] Criar camada de segurança utilizando JWT</li>
 </ul>
