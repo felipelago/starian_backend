@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -36,7 +36,7 @@ public class AuditFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         long start = System.currentTimeMillis();
-        Instant timestamp = Instant.now();
+        LocalDateTime timestamp = LocalDateTime.now();
 
         try {
             filterChain.doFilter(request, response);
