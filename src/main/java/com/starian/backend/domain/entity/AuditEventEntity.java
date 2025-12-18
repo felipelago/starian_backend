@@ -2,7 +2,7 @@ package com.starian.backend.domain.entity;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "audit_event")
@@ -13,7 +13,7 @@ public class AuditEventEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Instant timestamp;
+    private LocalDateTime timestamp;
 
     @Column(nullable = false)
     private String method;
@@ -43,7 +43,7 @@ public class AuditEventEntity {
     }
 
     public AuditEventEntity(
-            Instant timestamp,
+            LocalDateTime timestamp,
             String method,
             String path,
             Integer status,
@@ -72,11 +72,11 @@ public class AuditEventEntity {
         this.id = id;
     }
 
-    public Instant getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

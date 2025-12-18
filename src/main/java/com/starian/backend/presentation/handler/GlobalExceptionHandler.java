@@ -2,7 +2,7 @@ package com.starian.backend.presentation.handler;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.starian.backend.domain.exception.BusinessException;
-import com.starian.backend.presentation.controller.dto.ApiErrorResponse;
+import com.starian.backend.presentation.dto.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
