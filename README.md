@@ -34,7 +34,7 @@ cd starian_backend</pre>
   </li>
   
   <li><strong>Execute com Maven</strong>
-    <pre>./mvnw spring-boot:run</pre>
+    <pre>mvn spring-boot:run</pre>
   </li>
   
   <li><strong>Acesse a documentação da API</strong>
