@@ -1,6 +1,5 @@
 package com.starian.backend.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -9,8 +8,7 @@ public record AuditEventListResponse(
         @Schema(description = "ID único do evento", example = "1")
         Long id,
 
-        @Schema(description = "Data e hora do evento", example = "2025-12-18 14:30:00")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        @Schema(description = "Data e hora do evento", example = "2025-12-18T09:28:45.919157")
         LocalDateTime timestamp,
 
         @Schema(description = "Método HTTP", example = "POST")
