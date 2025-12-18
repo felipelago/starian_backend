@@ -1,6 +1,7 @@
 package com.starian.backend.presentation.controller;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.starian.backend.application.dto.request.UserRegisterCepAutoRequest;
 import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
 import com.starian.backend.application.dto.response.UserRegisterResponse;
@@ -36,6 +37,12 @@ public class UserController {
     @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema")
     public ResponseEntity<UserRegisterResponse> criarUsuario(@RequestBody UserRegisterRequest request) {
         return ResponseEntity.ok(userService.criarUsuario(request));
+    }
+
+    @PostMapping(value = "/cadastroCepAutomatico", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Criar novo usuário buscando cep pela ViaCep", description = "Cria um novo usuário no sistema utilizando sistema do ViaCep para buscar o endereço")
+    public ResponseEntity<UserRegisterResponse> criarUsuarioCepAuto(@RequestBody UserRegisterCepAutoRequest request) {
+        return ResponseEntity.ok(userService.criarUsuarioCepAuto(request));
     }
 
     @GetMapping

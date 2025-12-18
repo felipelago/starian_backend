@@ -2,11 +2,14 @@ package com.starian.backend.application.service;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.starian.backend.application.dto.request.UserRegisterCepAutoRequest;
 import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
 import com.starian.backend.application.dto.response.UserRegisterResponse;
+import com.starian.backend.application.dto.response.ViaCepResponse;
 import com.starian.backend.domain.entity.UserEntity;
 import com.starian.backend.domain.exception.BusinessException;
+import com.starian.backend.infrastructure.client.viacep.ViaCepAdapter;
 import com.starian.backend.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,12 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private final ViaCepAdapter viaCepAdapter;
 
-    public UserService(UserRepository userRepository, ObjectMapper objectMapper) {
+    public UserService(UserRepository userRepository, ObjectMapper objectMapper, ViaCepAdapter viaCepAdapter) {
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
+        this.viaCepAdapter = viaCepAdapter;
     }
 
     @Transactional
@@ -68,5 +73,28 @@ public class UserService {
 
         UserEntity atualizado = userRepository.save(userEntity);
         return objectMapper.convertValue(atualizado, UserListResponse.class);
+    }
+
+    @Transactional
+    public UserRegisterResponse criarUsuarioCepAuto(UserRegisterCepAutoRequest request) {
+
+        if (userRepository.findByCpf(request.cpf()).isPresent()) {
+            throw new BusinessException("CPF Já cadastrado: " + request.cpf());
+        }
+
+        ViaCepResponse viaCepResponse = viaCepAdapter.findByCep(request.cep());
+
+        UserEntity entity = new UserEntity();
+        entity.setNome(request.nome());
+        entity.setCpf(request.cpf());
+        entity.setCep(request.cep());
+        entity.setLogradouro(viaCepResponse.logradouro());
+        entity.setBairro(viaCepResponse.bairro());
+        entity.setCidade(viaCepResponse.cidade());
+        entity.setEstado(viaCepResponse.estado());
+
+        UserEntity salvo = userRepository.save(entity);
+
+        return objectMapper.convertValue(salvo, UserRegisterResponse.class);
     }
 }
