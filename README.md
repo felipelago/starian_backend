@@ -1,6 +1,4 @@
 <h1>Starian Backend API</h1>
-<p></p>
-<hr/>
 
 <p>API REST desenvolvida em Java 21 com Spring Boot 3.4.1 para cadastro de usuários e consulta de endereços via ViaCEP. O projeto utiliza arquitetura Onion criada por Jeffrey Palermo (2008), onde não requer interfaces explícitas, mais focada em dependência entre camadas (Domain -> Application -> Infrastructure -> Presentation).</p>
 
