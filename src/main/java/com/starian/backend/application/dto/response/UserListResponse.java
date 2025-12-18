@@ -3,7 +3,7 @@ package com.starian.backend.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record UserRegisterResponse(
+public record UserListResponse(
         Long id,
         String nome,
         String cpf,
