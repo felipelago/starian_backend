@@ -1,10 +1,10 @@
 package com.starian.backend.infrastructure.repository;
 
+import com.starian.backend.application.port.UserRepositoryPort;
 import com.starian.backend.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByCpf(String cpf);
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Long>, UserRepositoryPort {
 }
