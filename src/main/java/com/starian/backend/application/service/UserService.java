@@ -7,10 +7,10 @@ import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
 import com.starian.backend.application.dto.response.UserRegisterResponse;
 import com.starian.backend.application.dto.response.ViaCepResponse;
+import com.starian.backend.application.port.UserRepositoryPort;
 import com.starian.backend.domain.entity.UserEntity;
 import com.starian.backend.domain.exception.BusinessException;
 import com.starian.backend.infrastructure.client.viacep.ViaCepAdapter;
-import com.starian.backend.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserRepositoryPort userRepository;
     private final ObjectMapper objectMapper;
     private final ViaCepAdapter viaCepAdapter;
 
-    public UserService(UserRepository userRepository, ObjectMapper objectMapper, ViaCepAdapter viaCepAdapter) {
+    public UserService(UserRepositoryPort userRepository, ObjectMapper objectMapper, ViaCepAdapter viaCepAdapter) {
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
         this.viaCepAdapter = viaCepAdapter;
