@@ -4,6 +4,19 @@
 
 Este relatório apresenta uma revisão técnica abrangente do backend Starian, uma API REST desenvolvida em Java 21 com Spring Boot 3.4.1. A aplicação segue uma arquitetura Onion/Hexagonal e foi avaliada quanto a qualidade de código, padrões de design, segurança e boas práticas.
 
+## ⚠️ Security Summary
+
+**CodeQL Security Scan Results:**
+- ✅ Scan completed successfully
+- ⚠️ **1 security alert found: CSRF Protection Disabled**
+  - **File**: `SecurityConfig.java:35`
+  - **Issue**: `.csrf(csrf -> csrf.disable())`
+  - **Status**: **KNOWN AND DOCUMENTED** - This is intentional for development/demo purposes
+  - **Action Required**: Enable CSRF before production deployment
+  - **See**: Detailed security recommendations in Section "Análise de Segurança" below
+
+**No other security vulnerabilities found in the code.**
+
 ## Arquitetura Geral
 
 ### ✅ Pontos Fortes
