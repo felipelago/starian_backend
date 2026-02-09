@@ -21,7 +21,7 @@ public class ViaCepAdapter extends FeignClientAdapter implements ViaCepClientPor
     private ViaCepFeignClient client;
 
     @PostConstruct
-    private void init() {
+    protected void init() {
         logger.info("Inicializando ViaCep client com base URL: {}", baseUrl);
         this.client = createClient(baseUrl, ViaCepFeignClient.class);
     }
