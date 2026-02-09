@@ -1,6 +1,5 @@
 package com.starian.backend.presentation.controller;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.starian.backend.application.dto.request.UserRegisterCepAutoRequest;
 import com.starian.backend.application.dto.request.UserRegisterRequest;
 import com.starian.backend.application.dto.response.UserListResponse;
@@ -53,10 +52,11 @@ public class UserController {
     public ResponseEntity<Page<UserListResponse>> listarTodos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String sort
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection
     ) {
-        String[] sortParams = sort.split(",");
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]));
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
         Page<UserListResponse> usuarios = userService.listarUsuarios(pageable);
         return ResponseEntity.ok(usuarios);
@@ -88,7 +88,7 @@ public class UserController {
     public ResponseEntity<UserListResponse> atualizarUsuario(
             @Parameter(description = "ID do usuário", required = true)
             @PathVariable Long id,
-            @RequestBody UserRegisterRequest request) throws JsonMappingException {
+            @RequestBody UserRegisterRequest request) {
         return ResponseEntity.ok(userService.atualizarUsuario(id, request));
     }
 }
